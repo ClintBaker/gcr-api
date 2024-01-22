@@ -31,7 +31,7 @@ export const createRank = async (req, res, next) => {
 
 export const editRank = async (req, res, next) => {
   try {
-    const rank = await Rank.findByIdAndUpdate(req.params.id, req.body, {
+    const rank = await Rank.findOneAndUpdate({ _id: req.params.id }, req.body, {
       new: true,
     });
     res.status(200).send({ message: "Successfully updated rank", data: rank });

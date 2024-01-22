@@ -8,6 +8,33 @@ const rankSchema = new mongoose.Schema({
   difficulty: Number,
   views: Number,
   service: Number,
+  score: Number,
+});
+
+// middleware pre save
+rankSchema.pre("save", function (next) {
+  this.score =
+    this.greenQuality +
+    this.proShop +
+    this.weather +
+    this.difficulty +
+    this.views +
+    this.service;
+  next();
+});
+
+// middleware pre update
+rankSchema.pre("findOneAndUpdate", async function (next) {
+  console.log("FINDING AND UPDATING MIDDLEWARE");
+  const ur = await this.model.findOne(this.getQuery());
+  this._update.score =
+    ur.greenQuality +
+    ur.proShop +
+    ur.weather +
+    ur.difficulty +
+    ur.views +
+    ur.service;
+  next();
 });
 
 export const Rank = mongoose.model("Rank", rankSchema);
