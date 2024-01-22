@@ -23,18 +23,20 @@ rankSchema.pre("save", function (next) {
   next();
 });
 
-// middleware pre update
-rankSchema.pre("findOneAndUpdate", async function (next) {
-  console.log("FINDING AND UPDATING MIDDLEWARE");
-  const ur = await this.model.findOne(this.getQuery());
-  this._update.score =
-    ur.greenQuality +
-    ur.proShop +
-    ur.weather +
-    ur.difficulty +
-    ur.views +
-    ur.service;
-  next();
+rankSchema.post("findOneAndUpdate", async function (result) {
+  try {
+    const rank = await Rank.findById(result._id);
+    rank.score =
+      result.greenQuality +
+      result.proShop +
+      result.weather +
+      result.difficulty +
+      result.views +
+      result.service;
+    await rank.save();
+  } catch (e) {
+    throw new Error(e);
+  }
 });
 
 export const Rank = mongoose.model("Rank", rankSchema);
