@@ -31,13 +31,13 @@ export const createRank = async (req, res, next) => {
 
 export const editRank = async (req, res, next) => {
   try {
-    const rank = await Rank.findOneAndUpdate({ _id: req.params.id }, req.body, {
-      new: true,
-    });
     const updatedRank = await Rank.findById(req.params.id);
-    res
-      .status(200)
-      .send({ message: "Successfully updated rank", data: updatedRank });
+    Object.keys(req.body).forEach((key) => {
+      updatedRank[key] = req.body[key];
+    });
+
+    const rank = await updatedRank.save();
+    res.status(200).send({ message: "Successfully updated rank", data: rank });
   } catch (e) {
     next(e);
   }
