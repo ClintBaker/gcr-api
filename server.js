@@ -3,6 +3,7 @@ import rankRouter from "./router.js";
 import morgan from "morgan";
 import mongoose from "mongoose";
 import cors from "cors";
+import 'dotenv/config'
 
 const app = express();
 
@@ -12,7 +13,7 @@ main().catch((err) => console.log(err));
 // Function to connect
 async function main() {
   await mongoose.connect(
-    "mongodb+srv://clintjbaker:Evqbaq3apqH28TSu@cluster0.zlp1vlv.mongodb.net/?retryWrites=true&w=majority"
+    process.env.MONGODB_CONNECTION_STRING
   );
 }
 
