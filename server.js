@@ -2,7 +2,7 @@ import express from 'express'
 import rankRouter from './router.js'
 import morgan from 'morgan'
 import mongoose from 'mongoose'
-import cors from 'cors'
+// import cors from 'cors'
 import 'dotenv/config'
 
 const app = express()
@@ -18,7 +18,7 @@ async function main() {
 // middleware
 app.use(morgan('dev'))
 app.use(express.json())
-app.use(cors())
+// app.use(cors())
 
 // router for ranks
 app.use('/rank', rankRouter)
